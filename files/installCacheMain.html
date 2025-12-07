@@ -1,0 +1,34 @@
+<html manifest="../offline.cache">
+<head>
+<meta charset="utf-8">
+<title>缓存</title>
+<script>
+function DLProgress(e){
+    parent.ScrOverlay.style.display="block";
+    var Percent = Math.round((e.loaded / e.total) * 100);
+    parent.cacheUPDtxt.innerHTML = "离线缓存加载中...";
+    parent.CacheBar.style.width  = Percent + '%';
+}
+
+function DisplayCacheProgress(){
+    setTimeout(function(){
+        parent.cacheUPDtxt.innerHTML = "缓存完成！";
+    }, 1000);
+    setTimeout(function(){
+        parent.CacheProgress.style.display  = "none";
+        parent.cacheUPDtxt.innerHTML = "请收藏链接，并重启浏览器";
+    }, 2500);
+}
+
+// Event handlers
+window.applicationCache.addEventListener("progress", DLProgress, false);
+window.applicationCache.oncached       = function(e){ DisplayCacheProgress(); };
+window.applicationCache.onupdateready  = function(e){ DisplayCacheProgress(); };
+window.applicationCache.onerror        = function(e){
+    parent.cacheUPDtxt.innerHTML = "缓存失败，请检查网络";
+};
+</script>
+</head>
+<body>
+</body>
+</html>
